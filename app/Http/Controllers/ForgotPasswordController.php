@@ -14,7 +14,7 @@ class ForgotPasswordController extends Controller
     public function SendEmailLink(Request $request)
 	{
         $request->validate([
-            'email' => 'required|email|exists:auth_users',
+            'email' => 'required|email|exists:users',
 			'url' => 'required'
         ]);
 
@@ -45,7 +45,7 @@ class ForgotPasswordController extends Controller
 	public function submitResetPasswordForm(Request $request)
 	{
         $request->validate([
-            'email' => 'required|email|exists:auth_users',
+            'email' => 'required|email|exists:users',
 			'token' => 'required',
 			'password' => 'required|string|min:6|confirmed'
         ]);
@@ -63,10 +63,10 @@ class ForgotPasswordController extends Controller
 			$user = User::where('email', $request->email)
 			->update(['password' => Hash::make($request->password)]);
 			
-			DB::table('auth_users_password_resets')->where(['email'=> $request->email])->delete();
+			DB::table('password_resets')->where(['email'=> $request->email])->delete();
 			
 			$msg = 'Your password has been reset successfully.';
 			
-			return json_response(200, $msg);
+			return response(['success' => true, 'msg' => $msg]);
 		}	
 }

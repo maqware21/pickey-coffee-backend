@@ -1,6 +1,6 @@
 <?php
 
-use App\Http\Controllers\LoginController;
+use App\Http\Controllers\{ForgotPasswordController, LoginController, VerifyEmailController};
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -25,3 +25,10 @@ Route::group(['prefix' => 'user', 'controller' => LoginController::class], funct
 });
 
 Route::post('logout', [LoginController::class, 'logout'])->middleware(['auth:sanctum']);
+
+Route::post('forget-password', [ForgotPasswordController::class, 'SendEmailLink']);
+Route::post('reset-password', [ForgotPasswordController::class, 'submitResetPasswordForm']);
+
+
+Route::post('send-verification-mail', [VerifyEmailController::class, 'SendVerificationEmail'])->middleware(['auth:sanctum']);
+Route::post('verify-email', [VerifyEmailController::class, 'VerifyEmail']);   
