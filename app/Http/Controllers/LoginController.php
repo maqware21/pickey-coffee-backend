@@ -13,7 +13,7 @@ class LoginController extends Controller
 		$request->validate([
 			'fname' => 'required',
 			'lname' => 'required',
-			'phone_number' => 'required',
+			'phone_number' => 'required|min:10',
 			'email' => 'required|email',
 			'password' => 'required|string|min:6|confirmed'
 		]);
