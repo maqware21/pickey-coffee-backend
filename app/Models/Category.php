@@ -7,18 +7,18 @@ use Illuminate\Database\Eloquent\Model;
 
 class Category extends Model
 {
-    use HasFactory;
+	use HasFactory;
 
-    protected $fillable = [
-        'category_id',
-        'name',
-        'short_description',
-        'long_description',
-        'image'
-    ];
+	protected $fillable = [
+		'category_id',
+		'name',
+		'short_description',
+		'long_description',
+		'image'
+	];
 
-    public function categories()
-    {
-        return $this->belongsTo(Category::class);
-    }
+	public function categories()
+	{
+		return $this->belongsTo(Category::class);
+	}
 }
