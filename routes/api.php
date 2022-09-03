@@ -1,6 +1,6 @@
 <?php
 
-use App\Http\Controllers\{ForgotPasswordController, LocationController, LoginController, ProfileController, VerifyEmailController};
+use App\Http\Controllers\{ForgotPasswordController, LocationController, LoginController, ProductController, ProfileController, VerifyEmailController};
 use GuzzleHttp\Middleware;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -41,6 +41,16 @@ Route::group(['prefix' => 'location', 'middleware' => ('auth:sanctum'), 'control
 	Route::post('update/{id}', 'update');
 	Route::post('delete/{id}', 'delete');
 });
+
+// Product Api's List
+Route::group(['prefix' => 'product', 'middleware' => ('auth:sanctum'), 'controller' => ProductController::class], function () {
+	Route::get('list', 'list');
+	Route::post('create', 'save');
+	Route::post('{id}', 'show');
+	Route::post('update/{id}', 'update');
+	Route::post('delete/{id}', 'delete');
+});
+
 
 Route::group(['prefix' => 'profile', 'middleware' => ('auth:sanctum'), 'controller' => ProfileController::class], function () {
 	
