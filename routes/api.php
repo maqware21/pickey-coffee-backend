@@ -1,5 +1,6 @@
 <?php
 
+
 use App\Http\Controllers\{ForgotPasswordController, LocationController, LoginController, ProductController, ProfileController, VerifyEmailController};
 use GuzzleHttp\Middleware;
 use Illuminate\Http\Request;
@@ -58,7 +59,10 @@ Route::group(['prefix' => 'profile', 'middleware' => ('auth:sanctum'), 'controll
 	Route::post('change_password', 'change_password');
 });
 
-
-
-// Route::post('update', [ProfileController::class, 'update'])->middleware(['auth:sanctum']);
-// Route::post('change_password', [ProfileController::class, 'change_password'])->middleware(['auth:sanctum']);
+Route::group(['prefix' => 'category', 'middleware' => ('auth:sanctum'), 'controller' => CategoryController::class], function () {
+	
+	Route::post('create', 'create');
+	Route::post('list', 'list');
+	Route::post('update/{id}', 'update');
+	Route::post('delete/{id}', 'delete');
+});
