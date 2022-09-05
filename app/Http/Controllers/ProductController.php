@@ -5,10 +5,10 @@ namespace App\Http\Controllers;
 use App\Models\Product;
 use App\Http\Requests\ProductRequest;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\File;
 
 class ProductController extends Controller
-{
-   
+{ 
 	public function index()
 	{
 		$Product = Product::with('category')->paginate(10);
@@ -68,13 +68,27 @@ class ProductController extends Controller
 			$msg = "Product dosen'/t exists";
 			return response(['success' => false, 'msg' => $msg], 403);
 		}
-		
+
+		if ($request->has('image')){
+			$image = 'uploads/'. $Product->image;
+			
+			if (File::exists($image)) {
+				File::delete($image);
+			}
+
+			$file = $request->file('image');
+			$extension = $file->getClientOriginalExtension();
+			$filename = time(). '.'. $extension;
+			$file->move('uploads', $filename);
+		}
+
 		$Product->update([
             'category_id' => $request->category_id,
 			'name' => $request->name,
 			'sku' => str_replace(' ', '_', $request->sku),
 			'price' => $request->price,
 			'discount' => $request->discount,
+			'image' => $filename,
 			'short_description' => $request->short_description,
 			'long_description' => $request->long_description,
 			'status' => $request->status

@@ -2,84 +2,97 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Cart;
 use App\Models\Cart_detail;
+use App\Models\Product;
 use Illuminate\Http\Request;
 
 class CartDetailController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
-    {
-        //
-    }
+	// public function list()
+	// {
+	// 	$cart_detail = Cart_detail::with('cart', 'products')->paginate(10);
+	// 	$msg = "Cart_detail with cart fetched";
+		
+	// 	return response(['success' => true, 'msg' => $msg, 'data' => $cart_detail], 200);
+	// }
+	
+	// public function save(Request $request)
+	// {
+	// 	$request->validate([
+	// 		'product_id' => 'required|exists:products, id',
+	// 		'cart_id' => 'required|exists:carts, id',
+	// 		'product_total' => 'required'
+	// 	]);
+		
+	// 	$product = Product::where('id', $request->product_id)->first();
+	// 	$cart = Cart::where('id', $request->cart_id)->first();
+	// 	$cart_detail = Cart_detail::create([
+	// 		'product_id' => $product->id,
+	// 		'cart_id' => $cart->id,
+	// 		'product_total' => $request->total
+	// 	]);
+		
+	// 	if(!$cart_detail) {
+	// 		$msg = "Cart details  dosen'/t save please try again";
+	// 		return response(['success' => false, 'msg' => $msg], 500);
+	// 	}
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
+	// 	$msg = "Cart details created successfully";
+	// 	return response(['success' => true, 'msg' => $msg, 'data' => $cart_detail], 200);
+	// }
+	
+	// public function show(Cart_detail $cart_detail)
+	// {
+	// 	$cart_detail = Cart_detail::where('id', $cart_detail)->with('cart', 'products')->first();
+	// 	if(!$cart_detail){
+	// 		$msg = "Cart_detail dosen'/t exists";
+	// 		return response(['success' => false, 'msg' => $msg], 403);
+	// 	}
+		
+		
+	// 	$msg = "Cart_detail fetch successfuly";
+	// 	return response(['success' => true, 'msg' => $msg, 'data' => $cart_detail], 200);
+	// }
+	
+	// public function update(Request $request, Cart_detail $cart_detail)
+	// {
+	// 	$request->validate([
+	// 		'product_id' => 'required|exists:products, id',
+	// 		'cart_id' => 'required|exists:carts, id',
+	// 		'product_total' => 'required'
+	// 	]);
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        //
-    }
+	// 	$cart_detail = Cart_detail::where('id', $cart_detail)->with('cart', 'products')->first();
+	// 	if(!$cart_detail){
+	// 		$msg = "Cart_detail dosen'/t exists";
+	// 		return response(['success' => false, 'msg' => $msg], 403);
+	// 	}
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\Cart_detail  $cart_detail
-     * @return \Illuminate\Http\Response
-     */
-    public function show(Cart_detail $cart_detail)
-    {
-        //
-    }
+	// 	$product = Product::where('id', $request->product_id)->first();
+	// 	$cart = Cart::where('id', $request->cart_id)->first();
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\Cart_detail  $cart_detail
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Cart_detail $cart_detail)
-    {
-        //
-    }
+	// 	$cart_detail->update([
+	// 		'product_id' => $product->id,
+	// 		'cart_id' => $cart->id,
+	// 		'product_total' => $request->total
+	// 	]);
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Cart_detail  $cart_detail
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, Cart_detail $cart_detail)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Models\Cart_detail  $cart_detail
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(Cart_detail $cart_detail)
-    {
-        //
-    }
+	// 	$msg = "Cart details updated successfully";
+	// 	return response(['success' => true, 'msg' => $msg, 'data' => $cart_detail], 200);
+	// }
+	
+	// public function delete(Cart_detail $cart_detail)
+	// {
+	// 	$cart_detail = Cart_detail::where('id', $cart_detail)->with('cart')->first();
+	// 	if(!$cart_detail){
+	// 		$msg = "Cart_detail dosen'/t exists";
+	// 		return response(['success' => false, 'msg' => $msg], 403);
+	// 	}
+		
+	// 	$cart_detail->delete();
+	// 	$msg = "cart_detail deleted successfully";
+		
+	// 	return response(['success' => true, 'msg' => $msg], 200);
+	// }
 }

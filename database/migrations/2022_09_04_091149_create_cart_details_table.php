@@ -17,7 +17,7 @@ class CreateCartDetailsTable extends Migration
             $table->id();
             $table->foreignId('product_id')->constrained();
             $table->foreignId('cart_id')->constrained();
-            $table->string('product_total');
+            $table->string('quantity');
             $table->timestamps();
         });
     }
