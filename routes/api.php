@@ -1,11 +1,9 @@
 <?php
 
 
-use App\Http\Controllers\{ForgotPasswordController, LocationController, LoginController, ProductController, ProfileController, VerifyEmailController};
-use GuzzleHttp\Middleware;
+use App\Http\Controllers\{CartController, CartDetailController, CategoryController, ForgotPasswordController, LocationController, LoginController, OrderController, PaymentController, ProductController, ProfileController, VerifyEmailController};
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
-use Symfony\Component\HttpKernel\Profiler\Profile;
 
 /*
 |--------------------------------------------------------------------------
@@ -47,11 +45,10 @@ Route::group(['prefix' => 'location', 'middleware' => ('auth:sanctum'), 'control
 Route::group(['prefix' => 'product', 'middleware' => ('auth:sanctum'), 'controller' => ProductController::class], function () {
 	Route::get('list', 'list');
 	Route::post('create', 'save');
-	Route::post('{id}', 'show');
+	Route::get('show/{id}', 'show');
 	Route::post('update/{id}', 'update');
 	Route::post('delete/{id}', 'delete');
 });
-
 
 Route::group(['prefix' => 'profile', 'middleware' => ('auth:sanctum'), 'controller' => ProfileController::class], function () {
 	
@@ -59,6 +56,7 @@ Route::group(['prefix' => 'profile', 'middleware' => ('auth:sanctum'), 'controll
 	Route::post('change_password', 'change_password');
 });
 
+//Categories APIs
 Route::group(['prefix' => 'category', 'middleware' => ('auth:sanctum'), 'controller' => CategoryController::class], function () {
 	
 	Route::post('create', 'create');
@@ -66,3 +64,30 @@ Route::group(['prefix' => 'category', 'middleware' => ('auth:sanctum'), 'control
 	Route::post('update/{id}', 'update');
 	Route::post('delete/{id}', 'delete');
 });
+
+//Cart APIs
+Route::group(['prefix' => 'cart', 'middleware' => ('auth:sanctum'), 'controller' => CartController::class], function () {
+	Route::get('list', 'list');
+	Route::post('create', 'save');
+	Route::get('show/{id}', 'show');
+	Route::post('update/{id}', 'update');
+	Route::post('delete/{id}', 'delete');
+});
+
+//Payment Apis
+Route::group(['prefix' => 'payment', 'middleware' => ('auth:sanctum'), 'controller' => PaymentController::class], function () {
+	Route::get('list', 'list');
+	Route::post('create', 'save');
+	Route::get('show/{id}', 'show');
+	Route::post('update/{id}', 'update');
+	Route::post('delete/{id}', 'delete');
+});
+//Order APIs
+Route::group(['prefix' => 'order', 'middleware' => ('auth:sanctum'), 'controller' => OrderController::class], function () {
+	Route::get('list', 'list');
+	Route::post('create', 'save');
+	Route::get('show/{id}', 'show');
+	Route::post('update/{id}', 'update');
+	Route::post('delete/{id}', 'delete');
+});
+

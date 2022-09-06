@@ -11,9 +11,9 @@ class LoginController extends Controller
 	public function register(Request $request)
 	{
 		$request->validate([
-			'fname' => 'required',
-			'lname' => 'required',
-			'phone_number' => 'required|min:10',
+			'fname' => 'required|max:30',
+			'lname' => 'required|max:30',
+			'phone_number' => 'required',
 			'email' => 'required|email',
 			'password' => 'required|string|min:6|confirmed'
 		]);

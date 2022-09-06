@@ -12,12 +12,12 @@ class Cart_detail extends Model
     protected $fillable = [
 		'product_id',
 		'cart_id',
-		'product_total'
+		'quantity'
 	];
 
 	public function products()
 	{
-		return $this->hasMany(Product::class, 'product_id');
+		return $this->belongsTo(Product::class, 'product_id');
 	}
 	
 	public function cart()

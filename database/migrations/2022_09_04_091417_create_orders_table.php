@@ -17,7 +17,10 @@ class CreateOrdersTable extends Migration
             $table->id();
             $table->foreignId('user_id')->constrained();
             $table->foreignId('payment_id')->constrained();
-            $table->string('total');
+            $table->foreignId('location_id');
+            $table->string('total_payment');
+            $table->dateTime('delivery_date');
+            $table->enum('status', ['pending', 'active', 'delivered', 'cancelled'])->default('pending');
             $table->timestamps();
         });
     }
