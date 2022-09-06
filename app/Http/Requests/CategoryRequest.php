@@ -25,7 +25,7 @@ class CategoryRequest extends FormRequest
 	{
 		return [
 			'category_id' => 'nullable|exists:categories,id',
-			'name' => 'required|unique:categories',
+			'name' => 'required',
 			'short_description' => 'required',
 			'long_description' => 'required',
 			'image' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048'

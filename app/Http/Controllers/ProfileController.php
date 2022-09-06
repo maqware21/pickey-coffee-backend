@@ -11,8 +11,8 @@ class ProfileController extends Controller
 	public function update(Request $request)
 	{
 		$request->validate([
-			'fname' => 'required',
-			'lname' => 'required',
+			'fname' => 'required|max:30',
+			'lname' => 'required|max:30',
 			'phone_number' => 'required|numeric',
 		]);
 		
