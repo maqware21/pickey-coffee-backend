@@ -18,13 +18,7 @@ class OrderDetailController extends Controller
 	}
 	
 	public function save(Request $request)
-	{
-		$request->validate([
-			'product_id' => 'required|exists:products,id',
-			'order_id' => 'required|exists:orders,id',
-			'product_total' => 'required'
-		]);
-		
+	{	
 		$product = Product::where('id', $request->product_id)->first();
 		$order = Order::where('id', $request->order_id)->first();
 		

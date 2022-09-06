@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\File;
 
 class ProductController extends Controller
 { 
-	public function index()
+	public function list()
 	{
 		$Product = Product::with('category')->paginate(10);
 		$msg = "Products with categories fetched";
@@ -98,7 +98,7 @@ class ProductController extends Controller
 		return response(['success' => true, 'msg' => $msg, 'data' => $Product], 200);
 	}
 	
-	public function destory($id)
+	public function delete($id)
 	{
 		$Product = Product::where('id', $id)->first();
 		if(!$Product){

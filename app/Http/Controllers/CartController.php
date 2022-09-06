@@ -15,7 +15,6 @@ class CartController extends Controller
 	public function list()
 	{
 		$cart = Cart::with('cart_details.products')->paginate(10); 
-		dd($cart);
 		return response(['success' => true, 'msg' => '', 'data' => $cart]);
 	}
 	
@@ -33,7 +32,6 @@ class CartController extends Controller
 				$product = (object)$product;
 				
 				$product_id = Product::where('id', $product->product_id)->first();
-				// dd($product_id);
 				if(!$product_id) {
 					throw new Exception("Invalid product.");
 				}
@@ -44,16 +42,16 @@ class CartController extends Controller
 					'quantity' => $product->quantity
 				]);
 			}
-
+			
 			DB::commit();
 			
+			$cart_data = Cart::whereId($cart->id)->with('cart_details')->first();
 			$msg = "Cart created successfully";
-			return response(['success' => true, 'msg' => $msg, 'data' => $cart], 200);
+			return response(['success' => true, 'msg' => $msg, 'data' => $cart_data], 200);
 			
 		} catch(Exception $e){
 			DB::rollback();
-			$msg = $e->getMessage();
-			// $msg = "Cart dosen'/t save please try again";
+			$msg = "Cart dosen'/t save please try again";
 			return response(['success' => false, 'msg' => $msg], 500);
 		}
 	}
@@ -86,11 +84,23 @@ class CartController extends Controller
 				'total' => $request->total,
 				'status' => $request->status
 			]);
-			$cart_detail = $cart->cart_details->update([
-				'product_id' => $product->id,
-				'cart_id' => $cart->id,
-				'quantity' => $request->quantity
-			]);		
+
+			$cart_det = Cart_detail::where('cart_id', $cart->id)->delete();
+			foreach ($request->products as $product) {
+				$product = (object)$product;
+				
+				$product_id = Product::where('id', $product->product_id)->first();
+				if(!$product_id) {
+					throw new Exception("Invalid product.");
+				}
+				
+				$cart_detail = Cart_detail::create([
+					'product_id' => $product_id->id,
+					'cart_id' => $cart->id,
+					'quantity' => $product->quantity
+				]);
+			}			
+					
 			DB::commit();
 			
 			$msg = "Cart created successfully";
@@ -111,7 +121,7 @@ class CartController extends Controller
 			return response(['success' => false, 'msg' => $msg], 403);
 		}
 		
-		$cart->cart_details->delete();
+		$cart->cart_details()->delete();
 		$cart->delete();
 		
 		$msg = "Cart deleted successfuly";

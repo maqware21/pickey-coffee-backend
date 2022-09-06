@@ -74,15 +74,6 @@ Route::group(['prefix' => 'cart', 'middleware' => ('auth:sanctum'), 'controller'
 	Route::post('delete/{id}', 'delete');
 });
 
-//Cart_Detail APIs
-// Route::group(['prefix' => 'cart_detail', 'middleware' => ('auth:sanctum'), 'controller' => CartDetailController::class], function () {
-// 	Route::get('list', 'list');
-// 	Route::post('create', 'save');
-// 	Route::get('show/{id}', 'show');
-// 	Route::post('update/{id}', 'update');
-// 	Route::post('delete/{id}', 'delete');
-// });
-
 //Payment Apis
 Route::group(['prefix' => 'payment', 'middleware' => ('auth:sanctum'), 'controller' => PaymentController::class], function () {
 	Route::get('list', 'list');
