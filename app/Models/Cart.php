@@ -5,30 +5,23 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Product extends Model
+class Cart extends Model
 {
     use HasFactory;
     
-	protected $fillable = [
-		'name',
-		'sku',
-		'category_id',
-		'price',
-		'short_description',
-		'long_description',
-		'image',
-		'discount',
+    protected $fillable = [
+		'user_id',
+		'total',
 		'status',
 	];
 
-	public function category()
+	public function user()
 	{
-		return $this->belongsTo(Category::class,'category_id');
+		return $this->belongsTo(User::class, 'user_id');
 	}
 
 	public function cart_details()
 	{
 		return $this->hasMany(Cart_detail::class);
 	}
-
 }

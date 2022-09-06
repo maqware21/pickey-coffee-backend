@@ -26,7 +26,7 @@ class ProductRequest extends FormRequest
         return [ 
             'name' => 'required',
             'sku' => 'required',
-            'category_id' => 'required',
+            'category_id' => 'required|exists:categories,id',
             'price' => 'required',
             'discount' => 'required',
             'image' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
