@@ -41,15 +41,15 @@ class OrderController extends Controller
 				if(!$product_id) {
 					throw new Exception("Invalid product.");
 				}
-			$order_detail = Order_detail::create([
-				'product_id' => $product_id->id,
-				'order_id' => $order->id, 
-				'quantity' => $product->quantity,
-				'single_price' => @$product_id->price,
-				'total_price' => ($product->quantity * $product_id->price)
-			]);
+				$order_detail = Order_detail::create([
+					'product_id' => $product_id->id,
+					'order_id' => $order->id, 
+					'quantity' => $product->quantity,
+					'single_price' => @$product_id->price,
+					'total_price' => ($product->quantity * $product_id->price)
+				]);
+			} 
 			// dd($order_detail);
-		}
 			DB::commit();
 			
 			$order_data = Order::whereId($order->id)->with('order_details')->first();
@@ -57,15 +57,16 @@ class OrderController extends Controller
 			return response(['success' => true, 'msg' => $msg, 'data' => $order_data], 200);
 		} catch(Exception $e){
 			DB::rollBack();
-			// $msg = $e->getMessage();
-			$msg = "Order dosen'/t save please try again";
+			$msg = $e->getMessage();
+			// $msg = "Order dosen'/t save please try again";
 			return response(['success' => false, 'msg' => $msg], 500);
 		}
 	}
 	
-	public function show(Order $order)
+	public function show($id)
 	{
-		$orders = Order::where('id', $order)->with('user', 'payment')->first();
+		$orders = Order::where('id', $id)->with('user', 'order_details')->first();
+
 		if(!$orders){
 			$msg = "Order dosen'/t exists";
 			return response(['success' => false, 'msg' => $msg], 403);
@@ -75,34 +76,37 @@ class OrderController extends Controller
 		return response(['success' => true, 'msg' => $msg, 'data' => $orders], 200);
 	}
 	
-	public function update(Request $request, Order $order)
+	public function update(Request $request, $id)
 	{	
-		$orders = Order::where('id', $order)->with('user', 'payment')->first();
-		if(!$orders){
+		$request->validate([
+			'status' => 'required'
+		]);
+
+		$order = Order::where('id', $id)->with('order_details')->first();
+		if(!$order){
 			$msg = "Order dosen'/t exists";
 			return response(['success' => false, 'msg' => $msg], 403);
 		}
 		
-		$payment = Payment::where('id', $request->payment_id)->with('user')->first();
 		$order->update([
-			'user_id' => auth()->user()->id,
-			'payment_id' => $payment->id,
-			'total' => $request->total
+			'status' => $request->status
 		]);
 		
 		$msg = "Order created successfully";
 		return response(['success' => true, 'msg' => $msg, 'data' => $order], 200);
 	}
 	
-	public function delete(Order $order)
+	public function delete($id)
 	{
-		$orders = Order::where('id', $order)->with('user', 'payment')->first();
-		if(!$orders){
+		$order = Order::where('id', $id)->with('order_details')->first();
+		if(!$order){
 			$msg = "Order dosen'/t exists";
 			return response(['success' => false, 'msg' => $msg], 403);
 		}
+
+		$order->order_details()->delete();
+		$order->delete();
 		
-		$orders->delete();
 		$msg = "Order deleted successfuly";
 		return response(['success' => true, 'msg' => $msg], 200);
 	}

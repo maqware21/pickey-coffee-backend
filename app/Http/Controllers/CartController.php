@@ -5,10 +5,8 @@ namespace App\Http\Controllers;
 use Exception;
 use Illuminate\Support\Facades\DB;
 use App\Http\Requests\CartRequest;
-use App\Models\Cart;
-use App\Models\Cart_detail;
-use App\Models\Product;
 use Illuminate\Http\Request;
+use App\Models\{Cart, Cart_detail, Product};
 
 class CartController extends Controller
 {
@@ -42,13 +40,12 @@ class CartController extends Controller
 					'quantity' => $product->quantity
 				]);
 			}
-			
 			DB::commit();
 			
 			$cart_data = Cart::whereId($cart->id)->with('cart_details')->first();
 			$msg = "Cart created successfully";
+
 			return response(['success' => true, 'msg' => $msg, 'data' => $cart_data], 200);
-			
 		} catch(Exception $e){
 			DB::rollback();
 			$msg = "Cart dosen'/t save please try again";
@@ -84,7 +81,7 @@ class CartController extends Controller
 				'total' => $request->total,
 				'status' => $request->status
 			]);
-
+			
 			$cart_det = Cart_detail::where('cart_id', $cart->id)->delete();
 			foreach ($request->products as $product) {
 				$product = (object)$product;
@@ -100,7 +97,7 @@ class CartController extends Controller
 					'quantity' => $product->quantity
 				]);
 			}			
-					
+			
 			DB::commit();
 			
 			$msg = "Cart created successfully";

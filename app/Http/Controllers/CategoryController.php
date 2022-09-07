@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\CategoryRequest;
-use App\Models\Category;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\File;
+use App\Http\Requests\CategoryRequest;
+use App\Models\Category;
 
 class CategoryController extends Controller
 {
@@ -45,12 +45,7 @@ class CategoryController extends Controller
 		$category = Category::where('category_id', $request->category_id)
 		->with('categories')
 		->paginate(10);
-		
-		// if(!$category){
-		// 	$msg = "Category doesn'/t exists";
-		// 	return response(['success' => false, 'msg' => $msg], 403);
-		// }
-		
+
 		return response(['success' => true, 'msg' => '', 'data' => $category], 200);
 	}
 	
@@ -81,7 +76,7 @@ class CategoryController extends Controller
 			$filename = time(). '.'. $extension;
 			$file->move('uploads', $filename);
 		}
-		// dd($filename);
+		
 		$category->categories()->update([
 			'category_id' => @$request->category_id,
 			'name' => $request->name,

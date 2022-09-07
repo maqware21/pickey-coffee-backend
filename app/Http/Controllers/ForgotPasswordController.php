@@ -39,7 +39,6 @@ class ForgotPasswordController extends Controller
 			'url'	=> $url
 		];
 		return response(['success' => true, 'msg'=> $msg, 'data' => $data]);
-		// return response(200, $msg, $data);
 	}
 	
 	public function submitResetPasswordForm(Request $request)

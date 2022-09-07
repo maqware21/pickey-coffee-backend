@@ -44,7 +44,7 @@ class VerifyEmailController extends Controller
 			'email' => 'required|email|exists:users',
 			'token' => 'required'
 		]);
-
+		
 		$VerifyEmail = User::where([
 			'email' => $request->email, 
 			'verification_token' => $request->token
@@ -55,15 +55,16 @@ class VerifyEmailController extends Controller
 			
 			return response(['success' => false, 'msg' => $msg], 403);
 		}
-		
+			
 		$auth_user = User::where('email', $request->email)
 		->update([
 			'email_verified_at' => Carbon::now(),
 			'verification_token' => ''
 		]);
-			
+		
 		$msg = 'Email verfied successfully.';
 		
 		return response(['success' => true , 'msg' => $msg], 200);
 	}
 }
+	

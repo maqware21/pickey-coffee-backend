@@ -22,7 +22,7 @@ class ProfileController extends Controller
 			'phone_number' => $request->phone_number,
 		]);
 		$user = User::where('id', auth()->user()->id)->first();
-
+		
 		$msg = "User profile updated successfully";
 		return response(['success' => true, 'msg' => $msg, 'data' => $user], 200);
 	}
@@ -32,7 +32,7 @@ class ProfileController extends Controller
 		$request->validate([
 			'password' => 'required|string|min:6|confirmed',
 		]);
-
+		
 		$auth_user = auth()->user();
 		$updated_pass = Hash::make($request->password);
 		if (!Hash::check($request->current_password, $auth_user->password)) {
@@ -46,7 +46,7 @@ class ProfileController extends Controller
 			
 			return response(['success' => false, 'msg' => $msg], 403);
 		}
-
+		
 		$auth_user->password = $updated_pass;
 		$auth_user->save();
 		
@@ -57,6 +57,5 @@ class ProfileController extends Controller
 		$msg = 'Password updated successfully.';
 		
 		return response(['success' => true, 'msg' => $msg], 200);
-	}
-	
+	}	
 }
