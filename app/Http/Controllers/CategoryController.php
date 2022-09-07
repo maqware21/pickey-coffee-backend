@@ -39,7 +39,7 @@ class CategoryController extends Controller
 	public function list(Request $request)
 	{
 		$request->validate([
-			'category_id' => 'nullable'
+			'category_id' => 'nullable|exists:categories,id'
 		]);
 		
 		$category = Category::where('category_id', $request->category_id)
@@ -52,7 +52,7 @@ class CategoryController extends Controller
 	public function update(Request $request, $id)
 	{
 		$request->validate([
-			'category_id' => 'nullable',
+			'category_id' => 'nullable|exists:categories,id',
 			'name' => 'required',
 			'short_description' => 'required',
 			'long_description' => 'required',

@@ -43,7 +43,7 @@ Route::group(['prefix' => 'location', 'middleware' => ('auth:sanctum'), 'control
 
 // Product Api's List
 Route::group(['prefix' => 'product', 'middleware' => ('auth:sanctum'), 'controller' => ProductController::class], function () {
-	Route::get('list', 'list');
+	Route::post('list', 'list');
 	Route::post('create', 'save');
 	Route::get('show/{id}', 'show');
 	Route::post('update/{id}', 'update');

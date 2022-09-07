@@ -9,9 +9,12 @@ use Illuminate\Support\Facades\File;
 
 class ProductController extends Controller
 { 
-	public function list()
+	public function list(Request $request)
 	{
-		$Product = Product::with('category')->paginate(10);
+		$request->validate([
+			'category_id' => 'nullable|exists:categories,id'
+		]);
+		$Product = Product::where('category_id', $request->category_id)->with('category')->paginate();
 		$msg = "Products with categories fetched";
 		
 		return response(['success' => true, 'msg' => $msg, 'data' => $Product], 200);
